@@ -13,17 +13,13 @@ const app = express();
 const db = knex({
     client: "pg",
     connection: {
-        host: "localhost",
-        user: "postgres",
-        password: "Amadeus22",
-        database: "facerec",
+        connectionString: process.env.DATABASE_URL,
+        ssl: true,
     },
 });
 
-const apiKey = process.env.key;
-
 const clarifyApp = new Clarifai.App({
-    apiKey: apiKey,
+    apiKey: "a0ff2432f0f8436ea8935e7a80202193",
 });
 
 const handleAPICall = (req, res) => {
