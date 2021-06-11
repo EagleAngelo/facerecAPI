@@ -116,6 +116,13 @@ app.put("/image", (req, res) => {
         .catch((err) => res.status(400).json("unable to get entries"));
 });
 
+app.get("/favicon.ico", (req, res) => {
+    if (req.originalUrl.includes("favicon.ico")) {
+        res.status(204).end();
+    }
+    next();
+});
+
 app.post("/imageurl", (req, res) => {
     //console.log(req);
     handleAPICall(req, res);
