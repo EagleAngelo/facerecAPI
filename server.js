@@ -8,11 +8,6 @@ const Clarifai = require("clarifai");
 const register = require("./controllers/register");
 const signin = require("./controllers/signin");
 
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
 /* app.all("*", function (req, res, next) {
     var origin = req.get("origin");
     res.header("Access-Control-Allow-Origin", origin);
@@ -25,13 +20,19 @@ const db = knex({
     client: "pg",
     connection: {
         connectionString: process.env.DATABASE_URL,
-        ssl: true,
+        ssl: {
+            rejectUnauthorized: false,
+        },
     },
 });
 
 const clarifyApp = new Clarifai.App({
     apiKey: process.env.APIKEY,
 });
+
+const app = express();
+app.use(cors());
+app.use(express.json());
 
 const handleAPICall = (req, res) => {
     clarifyApp.models
