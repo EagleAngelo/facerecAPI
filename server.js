@@ -10,16 +10,16 @@ const signin = require("./controllers/signin");
 
 const app = express();
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
-app.all("*", function (req, res, next) {
+/* app.all("*", function (req, res, next) {
     var origin = req.get("origin");
     res.header("Access-Control-Allow-Origin", origin);
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header("Access-Control-Allow-Headers", "Content-Type");
     next();
-});
+}); */
 
 const db = knex({
     client: "pg",
@@ -30,7 +30,7 @@ const db = knex({
 });
 
 const clarifyApp = new Clarifai.App({
-    apiKey: "a0ff2432f0f8436ea8935e7a80202193",
+    apiKey: process.env.APIKEY,
 });
 
 const handleAPICall = (req, res) => {
@@ -45,38 +45,6 @@ const handleAPICall = (req, res) => {
         .then((data) => res.json(data))
         .catch((err) => res.status(400).json("api failed"));
 };
-
-/* db.select("*")
-    .from("users")
-    .then((data) => {})
-    .catch((err) => {
-        console.log(err);
-    }); */
-
-/* const database = {
-    users: [
-         {
-            id: "1",
-            name: "john",
-            email: "john@gmail.com",
-            password: "lol",
-            entries: 0,
-            joined: new Date(),
-        },
-        {
-            id: "2",
-            name: "sally",
-            email: "sally@gmail.com",
-            password: "hai",
-            entries: 0,
-            joined: new Date(),
-        },
-    ],
-    login: [
-        { id: "1", has: "", email: "john@gmail.com" },
-        { id: "2", has: "", email: "sally@gmail.com" },
-    ],
-}; */
 
 app.get("/", (req, res) => {
     res.json("success");
