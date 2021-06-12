@@ -10,11 +10,13 @@ const signin = require("./controllers/signin");
 
 const app = express();
 
+app.use(express.json());
+app.use(cors());
+
 const db = knex({
     client: "pg",
     connection: {
         connectionString: process.env.DATABASE_URL,
-        port: process.env.PORT,
         ssl: true,
     },
 });
@@ -67,9 +69,6 @@ const handleAPICall = (req, res) => {
         { id: "2", has: "", email: "sally@gmail.com" },
     ],
 }; */
-
-app.use(express.json());
-app.use(cors());
 
 app.get("/", (req, res) => {
     res.json("success");
